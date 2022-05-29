@@ -6,7 +6,7 @@
 /*   By: obelkhad <obelkhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:02:45 by obelkhad          #+#    #+#             */
-/*   Updated: 2022/05/28 14:30:56 by obelkhad         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:18:05 by obelkhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_philo
 	int				is_eating;
 	size_t			last_time_eat;
 	size_t			last_time_sleep;
-	int				check;
 	pthread_mutex_t	my_forks;
 	pthread_mutex_t	*next_forks;
 }	t_philo;
@@ -36,7 +35,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				nbr_philo;
-	int				t_die;
+	size_t			t_die;
 	int				t_eat;
 	int				t_sleep;
 	int				nbr_must_eat;
@@ -48,10 +47,9 @@ typedef struct s_data
 	pthread_mutex_t	is_die;
 }	t_data;
 
-
 int		ft_atoi(const char *str);
 int		parse_args(t_data *data, char **argv);
-int 	initialing(t_data *data);
+int		initialing(t_data *data);
 int		creation(t_data *data);
 size_t	get_time(void);
 void	monitoring(t_data *data, int id, char *msg, int bol);
@@ -60,4 +58,5 @@ void	sleeping(t_data *data, int id);
 void	thinking(t_data *data, int id);
 void	check_die(t_data *data);
 void	ft_usleep(size_t time_sleep, size_t record);
+int		destroy(t_data *data);
 #endif

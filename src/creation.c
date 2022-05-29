@@ -6,15 +6,15 @@
 /*   By: obelkhad <obelkhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:35:05 by obelkhad          #+#    #+#             */
-/*   Updated: 2022/05/28 19:03:10 by obelkhad         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:21:26 by obelkhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int finish_meal(t_data *data)
+int	finish_meal(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (data->nbr_must_eat == -1)
@@ -29,21 +29,10 @@ int finish_meal(t_data *data)
 	return (0);
 }
 
-int	lol(t_data *data)
+void	check_die(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (i < data->nbr_philo && data->philos[i].check)
-		i++;
-	if (i == data->nbr_philo)
-		return (1);
-	return (0);
-}
-
-void check_die(t_data *data)
-{
-	int	i;
 	usleep(1000);
 	while (!data->some_one_dead)
 	{
@@ -52,12 +41,12 @@ void check_die(t_data *data)
 		{
 			usleep(1000);
 			pthread_mutex_lock(&data->is_die);
-			if (get_time() - data->philos[i].last_time_eat >= (size_t)data->t_die)
+			if (get_time() - data->philos[i].last_time_eat >= data->t_die)
 			{
 				data->some_one_dead = 1;
 				pthread_mutex_unlock(&data->is_die);
 				monitoring(data, i, "died", 1);
-				break;
+				break ;
 			}
 			pthread_mutex_unlock(&data->is_die);
 			i++;
@@ -83,7 +72,7 @@ void	*routine(void *info)
 	{
 		thinking(data, id);
 		if (eating(data, id))
-			break;
+			break ;
 		sleeping(data, id);
 	}
 	return (NULL);
@@ -101,11 +90,6 @@ int	creation(t_data *data)
 			return (4);
 		i++;
 	}
-	if (data->nbr_philo == 1)
-	{
-		usleep(100);
-		data->philos[0].check = 1;
-	}
 	check_die(data);
 	i = -1;
 	while (++i < data->nbr_philo)
@@ -114,13 +98,5 @@ int	creation(t_data *data)
 			return (1);
 	}
 	i = -1;
-	while (++i < data->nbr_philo)
-		pthread_mutex_destroy(&data->philos[i].my_forks);
-	if (pthread_mutex_destroy(&data->is_printing))
-		return (1);
-	if (pthread_mutex_destroy(&data->is_eating))
-		return (1);
-	if (pthread_mutex_destroy(&data->is_die))
-		return (1);
-	return (0);
+	return (destroy(data));
 }

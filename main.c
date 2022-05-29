@@ -6,13 +6,13 @@
 /*   By: obelkhad <obelkhad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:59:20 by obelkhad          #+#    #+#             */
-/*   Updated: 2022/05/28 17:11:22 by obelkhad         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:17:23 by obelkhad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_data	data;
 
@@ -21,14 +21,14 @@ int main(int argc, char *argv[])
 		if (parse_args(&data, argv))
 		{
 			write(2, "invalid arguments\n", 19);
-			return(1);
+			return (1);
 		}
 		if (initialing(&data))
-			return(1);
+			return (1);
 		if (creation(&data))
 		{
 			free(data.philos);
-			return (10);
+			return (1);
 		}
 		else
 			free(data.philos);
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		write(2, "invalid number of arguments\n", 28);
-		return(1);
+		return (1);
 	}
-	return(0);
+	return (0);
 }
